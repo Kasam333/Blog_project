@@ -1,0 +1,22 @@
+{% extends 'base1.html' %}
+{% load static %} 
+
+{% block title %}
+    Add New Category
+{% endblock %}
+
+{% block main %}
+<div class="container shadow p-3 mb-5 bg-body rounded" style="width: 50%;margin-top: 10%;">
+    <h1 class="heading" style="text-align:center;color:#1e3c72;margin-top: 10px;font-weight: bolder;">Add Category</h1>
+    <br>
+    <div class="form-group" style="font-weight: 600;line-height: 2.5;">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br/>
+            <button class="btn btn-primary btn-block" style="width:200px;position: relative;left:35%;
+            background: #28a745;">Add Category</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

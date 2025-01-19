@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% block title %}
+        BeBlogger
+    {% endblock %}
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/blog_style/style.css">
+
+    
+
+    <style>
+        /* Styling the form to make the search input more sleek */
+        .search-form {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            background-color: #fff;
+            width: 100%;
+        }
+
+        .search-form input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            /* Added 40px padding left to make space for the icon */
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        .search-form input::placeholder {
+            color: #bbb;
+        }
+
+        /* Positioning the search icon */
+        .search-form .search-icon {
+            position: absolute;
+            left: 15px;
+            font-size: 18px;
+            color: #aaa;
+        }
+
+        .search-form input:focus {
+            box-shadow: 0 0 5px 0 #1183d6;
+            border-color: #1183d6;
+        }
+
+        .image-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  margin: auto;
+}
+
+.image-wrapper img {
+  border-radius: 10px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.image-wrapper:hover img {
+  transform: scale(1.05);
+}
+
+.image-container .image-overlay {
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper:hover .image-overlay {
+  opacity: 1;
+}
+
+.post-body {
+    line-height: 1.8;
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: left;
+        max-width: 55%;
+        margin: 0 auto;
+}
+@media screen and (max-width: 768px) {
+    .post-body {
+    line-height: 1.8;
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: left;
+        max-width: 90%;
+        margin: 0 auto;
+}
+}
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: 700; font-size: 30px; margin-left: -1px;">BeBlogger</a>
+
+            <!-- Search Bar -->
+            <form class="search-form" style="width: 30%;">
+                <i class="fas fa-search search-icon"></i>
+                <input type="search" placeholder="Search..." name = "search">
+            </form>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center" style="margin-right: -20px;">
+                    <!-- Write Icon -->
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="{% url 'add_post' %}">
+                            <img src="/static/images/write.png" alt="Profile" style="width: 25px; height: 25px;">
+                        </a>
+                    </li>
+
+                    <!-- Notification Icon -->
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="#">
+                            <img src="/static/images/notification.png" alt="Profile"
+                                style="width: 25px; height: 25px; ">
+                        </a>
+                    </li>
+
+                    <!-- Profile Photo -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">
+                            <img src="/static/images/user.png" alt="Profile" class="rounded-circle"
+                                style="width: 40px; height: 40px;">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    {% block main %}
+
+
+    {% endblock main %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/scripts.js"></script>
+</body>
+
+</html>

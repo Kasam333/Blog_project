@@ -1,0 +1,88 @@
+{% extends "base1.html" %}
+{% block main %}
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 px-3 alert-warning position-absolute d-none d-md-block" id="sticky-sidebar">
+      <div class="nav flex-column p-3 text-center" id="sidebar"
+        style="background-color: #f9f9f9; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;  height: 550px;">
+        <!-- Profile Image -->
+         
+        <img
+          src="{% if request.user.userprofile.profile_image %}{{ MEDIA_URL }}{{ request.user.userprofile.profile_image }}{% else %}/static/images/user.png{% endif %}"
+          alt="User Profile" class="rounded-circle shadow-sm" style="width: 120px; height: 120px; margin-bottom: 15px;">
+        <h4 style="font-weight: 600; margin-bottom: 5px;">{{ request.user.first_name }}</h4>
+        <p class="text-muted">{{ request.user.username }}</p>
+
+        <!-- Stats -->
+        <div class="mt-4">
+          <div class="p-3 mb-3 rounded shadow-sm" style="background-color: #fff;">
+            <strong>Total Posts:</strong> {{ posts.count }}
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <a href="{% url 'Logout' %}" class="btn btn-outline-danger mt-4 px-4 py-2">Logout</a>
+        
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-9 offset-md-3 col-12" id="main">
+      <div class="text-center my-4">
+        <h1 style="font-weight: 700; color: #333;">My Posts</h1>
+      </div>
+
+      <!-- Posts Section -->
+      <div class="row g-4">
+        {% for post in posts %}
+        <div class="col-md-6 col-lg-4">
+          <div
+            class="card shadow-sm"
+            style="border: none; border-radius: 15px; overflow: hidden;"
+          >
+            <a href="{% url 'post-detail' post.pk %}" style="text-decoration: none; color: inherit;">
+              <img
+                src="{% if post.post_image %}{{ post.post_image.url }}{% else %}/static/images/default_image.webp{% endif %}"
+                class="card-img-top"
+                alt="Post Image"
+                style="height: 180px; object-fit: cover;"
+              >
+              <div class="card-body">
+                <span
+                  class="badge bg-primary mb-2"
+                  style="font-size: 12px; padding: 5px 10px;"
+                >
+                  {{ post.category }}
+                </span>
+                <h5 class="card-title" style="font-weight: 600;">{{ post.title }}</h5>
+                <p class="card-text text-muted">
+                  {{ post.title_description|truncatewords:15 }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <small class="text-muted">Posted: {{ post.post_date|date:"F d, Y" }}</small>
+                  <div class="d-flex align-items-center">
+                    <img src="/static/images/comment.png" alt="Comments" style="width: 20px; height: 20px;">
+                    <span style="margin-left: 5px; font-size: 14px;">{{ post.comments.count }}</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <div class="card-footer d-flex justify-content-around bg-light">
+              <a href="{% url 'update_post' post.pk %}" class="btn btn-outline-secondary btn-sm">
+                <img src="/static/images/edit.png" alt="Edit" style="width: 18px;">
+              </a>
+              <a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-danger btn-sm">
+                <img src="/static/images/delete.png" alt="Delete" style="width: 18px;">
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

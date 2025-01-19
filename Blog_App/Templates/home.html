@@ -1,0 +1,60 @@
+{% extends "base1.html" %}
+{% block main %}
+
+<div class="container1" style="margin-top: 20px;">
+    <div class="categories">
+        <a href="{% url 'add_category' %}">
+            <button class="add-category-btn" style="margin-left: 10px; float: right; display: flex; justify-content: center; align-items: center;">
+                Add Category
+            </button>
+        </a>
+        <div class="category-slider">
+            <ul id="category-list">
+                <li>
+                    <button class="category-btn" onclick="filterCategory('All')">All Posts</button>
+                </li>
+                {% for category in cat_menu %}
+                <li>
+                    <button class="category-btn" onclick="filterCategory('{{ category.name }}')">{{ category.name }}</button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="posts">
+    {% if posts %}
+    {% for post in posts %}
+    <a href="{% url 'post-detail' post.pk %}" style="text-decoration: none;">
+        <div class="post" data-category="{{ post.category }}">
+            <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+                <div class="post-details">
+                    <img src="/static/images/user.png" alt="Profile" style="width: 25px; height: 25px;">
+                    <span style="margin-left: 10px;">Author: {{ post.author.first_name }}</span>
+
+                    <h1 class="post-title">{{ post.title }}</h1>
+
+                    <p class="post-description">{{ post.title_description }}</p>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <p class="post-date">Posted on: {{ post.post_date | date:'F d, Y' }}</p>
+                        <img src="/static/images/comment.png" alt="Profile" style="width: 20px; height: 20px; margin-left: 20px;">
+                        <span style="margin-left: 5px; color: black;">{{ post.comments.count }}</span>
+                    </div>
+
+                    <p class="category-description">{{ post.category }}</p>
+                </div>
+                <div class="post-image">
+                    <img src="{% if post.post_image %}{{ post.post_image.url }}{% else %}/static/images/default_image.webp{% endif %}" alt="{{ post.title }}">
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <!-- No Posts Available -->
+    <p class="text-center text-muted" style="margin-top: 50px;">No posts available in this category.</p>
+    {% endif %}
+</div>
+
+{% endblock main %}

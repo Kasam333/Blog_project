@@ -1,0 +1,78 @@
+{% extends 'base1.html' %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="sec mt-4">
+    <h1 class="text-center fw-bold" style="color:rgb(0, 0, 0);">{{ post.title }}</h1>
+    <h4 class="text-center text-muted">{{ post.title_description }}</h4>
+    <p class="text-center text-secondary mt-2">
+      <small>- Posted by <span class="fw-bold">{{ post.author }}</span></small>
+    </p>
+    <div class="text-center mt-3">
+      <!-- Category -->
+      <a href="{% url 'category' post.category %}" class="badge bg-success text-decoration-none p-3">
+        Category: {{ post.category }}
+      </a>
+    </div>
+  </div>
+
+  <hr class="mt-4">
+
+  {% if post.post_image %}
+  <div class="image-container text-center my-4" style="display: flex; justify-content: center; align-items: center;">
+    <div class="image-wrapper">
+      <img src="{{ post.post_image.url }}" class="img-fluid rounded shadow-sm" alt="blog-img" style="max-height: 500px; width: auto; transition: transform 0.3s;">
+    </div>
+    <div class="image-overlay text-center text-white fw-bold d-flex align-items-center justify-content-center" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 0; background: rgba(30, 60, 114, 0.7); transition: opacity 0.3s;">
+      Cool Blog Image
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Center-aligned post body -->
+  <div class="post-body my-4">
+    {{ post.body|safe }}
+  </div>
+
+  <hr class="mt-4">
+
+  <!-- Comments Section -->
+  <div class="comments-section mt-5 p-4 mb-5 bg-light rounded shadow-sm">
+    <h2 class="text-dark fw-bold mb-4">Responses ( {{ post.comments.count }} )</h2>
+     <!-- Add Comment Form -->
+    <div class="add-comment mt-2">
+      <form method="post" action="{% url 'add_comment' post.pk %}">
+        {% csrf_token %}
+        <div class="form-group mt-3">
+          <textarea 
+            name="body" 
+            class="form-control" 
+            rows="5" 
+            placeholder="Give your Response here..." 
+            required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success mt-3">Submit Response</button>
+      </form>
+    </div>
+    {% if not post.comments.all %}
+    <p class="text-center text-muted">No comments yet. Be the first to comment!</p>
+    {% else %}
+    <div class="comments-list">
+      {% for comment in post.comments.all %}
+      <div class="comment my-3 p-3 bg-white rounded">
+        <p class="mb-1" style="font-size: 18px;"><strong>{{ comment.author.first_name }}</strong></p>
+        <small class="text-muted">{{ comment.date_added }}</small>
+        <p style="margin-top: 10px;">{{ comment.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+   
+  </div>
+</div>
+{% endblock %}
